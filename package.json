@@ -1,0 +1,9 @@
+{
+  "name": "helicase",
+  "version": "1.0.0",
+  "description": "A tool to back up Synology NAS data to multiple external drives",
+  "scripts": {
+    "index": "node src/scripts/index.js",
+    "partition": "node src/scripts/partition.js"
+  }
+}
