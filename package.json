@@ -4,6 +4,7 @@
   "description": "A tool to back up Synology NAS data to multiple external drives",
   "scripts": {
     "index": "node src/scripts/index.js",
-    "partition": "node src/scripts/partition.js"
+    "partition": "node src/scripts/partition.js",
+    "backup": "node src/scripts/backup.js"
   }
 }
