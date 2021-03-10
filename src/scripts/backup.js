@@ -77,7 +77,7 @@ execute(`cd /Volumes/${formatted}`)
       const formattedPercent = percent.toFixed(2).padStart(6);
 
       console.clear();
-      console.log(`${formattedPercent}% | ${source})`);
+      console.log(`${formattedPercent}% | ${source}`);
     }
 
     const endTime = new Date().getTime();
