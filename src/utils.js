@@ -1,6 +1,7 @@
 const { exec } = require('child_process');
+const request = require('request');
 
-const { parameters } = require('./config');
+const { parameters, webhook } = require('./config');
 
 const { filesystem } = parameters;
 
@@ -11,6 +12,8 @@ const execute = command =>
     });
   });
 
+const slack = message => request.post(webhook, { json: { text: message } });
+
 const bytes = (number, unit) => {
   if (unit === 'TB') return number * 1000000000000;
   if (unit === 'GB') return number * 1000000000;
@@ -20,4 +23,4 @@ const percent = number => number / 100;
 
 const space = bytes => bytes * (1 + percent(filesystem));
 
-module.exports = { execute, bytes, percent, space };
+module.exports = { execute, slack, bytes, percent, space };

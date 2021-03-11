@@ -1,8 +1,9 @@
 const fs = require('fs');
 
-const { execute } = require('../utils');
+const { execute, slack } = require('../utils');
+const { webhook } = require('../config');
 
-const volume = process.argv.slice(2).join(' ');
+const volume = process.argv[2];
 
 if (!volume) {
   console.log('Provide a volume');
@@ -84,7 +85,7 @@ execute(`cd /Volumes/${formatted}`)
 
     const difference = (endTime - startTime) / 1000;
     const hours = Math.floor(difference / 3600);
-    const minutes = Math.floor(difference / 60);
+    const minutes = Math.floor((difference % 3600) / 60);
     const seconds = Math.round(difference % 60);
 
     const copied = instructions.copy.length.toLocaleString();
@@ -97,6 +98,8 @@ execute(`cd /Volumes/${formatted}`)
     console.log(`Copied ${copied} files in ${duration}`);
     console.log(`Wrote ${wrote} TB at ${rate} MB/s`);
     console.log();
+
+    if (webhook) slack(`Completed backup to ${volume}.`);
   })
   .catch(() => {
     console.log(`/Volumes/${formatted} not found`);

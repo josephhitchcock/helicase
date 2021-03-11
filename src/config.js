@@ -8,7 +8,7 @@ module.exports = {
     { path: '/Volumes/backup4', size: 8 },
   ],
 
-  delimiter: '|',
+  delimiter: ':',
 
   parameters: {
     // Assume hard drive has X% actual capacity
@@ -23,4 +23,6 @@ module.exports = {
     // X = 2, 1GB movie file => 1.02GB on disk
     filesystem: 2,
   },
+
+  webhook: '',
 };
