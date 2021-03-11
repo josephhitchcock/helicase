@@ -1,5 +1,5 @@
 const { exec } = require('child_process');
-const request = require('request');
+const axios = require('axios');
 
 const { parameters, webhook } = require('./config');
 
@@ -12,7 +12,7 @@ const execute = command =>
     });
   });
 
-const slack = message => request.post(webhook, { json: { text: message } });
+const slack = message => axios.post(webhook, { text: message });
 
 const bytes = (number, unit) => {
   if (unit === 'TB') return number * 1000000000000;

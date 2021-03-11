@@ -6,5 +6,8 @@
     "index": "node src/scripts/index.js",
     "partition": "node src/scripts/partition.js",
     "backup": "node src/scripts/backup.js"
+  },
+  "dependencies": {
+    "axios": "^0.21.1"
   }
 }
