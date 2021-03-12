@@ -28,7 +28,7 @@ class DriveManager {
     }
   }
 
-  hasCapacity(current) {
+  test(current) {
     let adding = 0;
     for (const file of Object.values(current)) {
       adding += file.size;
@@ -39,7 +39,7 @@ class DriveManager {
       capacity += drive.getCapacity();
     }
 
-    return capacity >= space(adding);
+    return capacity - space(adding);
   }
 
   add(current, previous) {
@@ -72,8 +72,8 @@ class DriveManager {
     for (const drive of this.active) {
       this.drives[drive].writeInstructions();
     }
-
-    const timestamp = new Date().getTime();
+    const options = { month: 'long', day: 'numeric', year: 'numeric' };
+    const timestamp = new Date().toLocaleString('en-US', options);
     const location = `output/snapshot (${timestamp}).json`;
     fs.writeFileSync(location, JSON.stringify(previous));
   }

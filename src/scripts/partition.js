@@ -2,9 +2,28 @@ const fs = require('fs');
 
 const DriveManager = require('../classes/DriveManager');
 
-const previous = require('../../input/previous.json');
+const { delimiter } = require('../config');
 
-const index = fs.readFileSync('temp/index.txt', { encoding: 'utf8' });
+let previous = {};
+try {
+  previous = require('../../input/previous.json');
+} catch {
+  console.log('No previous.json file found in /input');
+  console.log('Copy over and rename a previous snapshot file');
+  console.log();
+  return;
+}
+
+let index = '';
+try {
+  index = fs.readFileSync('temp/index.txt', { encoding: 'utf8' });
+} catch {
+  console.log('No index.txt file found');
+  console.log('Make sure you first execute npm run index');
+  console.log();
+  return;
+}
+
 const lines = index.split('\n');
 lines.pop();
 
@@ -14,10 +33,12 @@ const startTime = new Date().getTime();
 
 const current = {};
 for (const line of lines) {
-  const attributes = line.split('|');
+  const attributes = line.split(delimiter);
 
   if (attributes.length !== 3) {
-    console.log('Invalid index');
+    console.log('Invalid index entry');
+    console.log('Ensure index script completed successfully');
+    console.log();
     return;
   }
 
@@ -52,8 +73,13 @@ for (const path of Object.keys(current)) {
 
 manager.load(previous);
 
-if (!manager.hasCapacity(current)) {
-  console.log('Not enough space');
+const free = manager.test(current);
+
+if (free < 0) {
+  const extra = -free / 1000000000;
+  console.log(`${extra.toFixed(1)} GB over capacity`);
+  console.log('Add another drive or tweak parameters');
+  console.log();
   return;
 }
 
@@ -62,12 +88,9 @@ manager.add(current, previous);
 const endTime = new Date().getTime();
 
 const difference = (endTime - startTime) / 1000;
-const minutes = Math.floor(difference / 60);
-const seconds = Math.round(difference % 60);
 
 const count = Object.keys(current).length.toLocaleString();
-const duration = `${minutes}m ${seconds}s`;
+const duration = `${difference.toFixed(1)}s`;
 
-console.log();
 console.log(`Successfully placed ${count} files in ${duration}`);
 console.log();
