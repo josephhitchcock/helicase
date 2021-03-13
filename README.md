@@ -12,13 +12,13 @@ A tool to back up Synology NAS data to multiple external drives
     * Enter your destinations as objects with a `path` string and `size` number (in terabytes).
     * _Optional_: Add a Slack webhook to be alerted when each batch is completed, then `npm install`.
       * `axios` is used to make the POST requests, otherwise no dependencies are needed.
-2. `npm index`
+2. `npm run index`
     * This will gather information about each file within the source directories, and stream it to a temp file.
     * Expected to take minutes.
-3. `npm partition`
+3. `npm run partition`
     * This will read the temp file and attempt to place each file onto a destination volume, then output instructions.
     * Expected to take seconds.
-4. For each destination volume: mount it, then `npm backup <drive>`
+4. For each destination volume: mount it, then `npm run backup <drive>`
     * This will read the instructions for `drive` and execute them.
     * **Note**: If your drive name has spaces in it, be sure to enclose it in quotes.
     * Expected to take hours.
