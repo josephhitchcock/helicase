@@ -48,7 +48,7 @@ class DriveManager {
 
       let writeTo = '';
 
-      for (const drive of this.active) {
+      for (const drive of [...this.active].reverse()) {
         if (this.drives[drive].getCapacity() >= space(size)) {
           writeTo = drive;
           break;
@@ -56,13 +56,17 @@ class DriveManager {
       }
 
       if (!writeTo) {
+        let biggest = 0;
         for (const drive of Object.keys(this.drives)) {
           if (!this.active.has(drive)) {
-            this.active.add(drive);
-            writeTo = drive;
-            break;
+            const capacity = this.drives[drive].getCapacity();
+            if (capacity > biggest) {
+              biggest = capacity;
+              writeTo = drive;
+            }
           }
         }
+        this.active.add(writeTo);
       }
 
       this.drives[writeTo].copy(path, size);
