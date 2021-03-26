@@ -12,11 +12,11 @@ module.exports = {
 
   parameters: {
     // Assume hard drive has X% actual capacity
-    // X = 90, 8TB hard drive => 7.2TB actual
-    capacity: 90,
+    // X = 98, 8TB hard drive => 7.84TB actual
+    capacity: 98,
 
     // Don't touch the last XGB of the drive
-    // X = 8, 7.2TB actual => 7.192TB usable
+    // X = 8, 7.84TB actual => 7.832TB usable
     buffer: 8,
 
     // Assume files take X% more size on disk
